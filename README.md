@@ -27,7 +27,7 @@ Uma aplicação interativa que utiliza a **Dog API** para permitir que usuários
 ```text
 dog-customizer/
 ├── api/
-│   └── DogObject.php      # Classe PHP representando o objeto de configuração
+│   └── DogConfig.php      # Classe PHP representando o objeto de configuração
 ├── assets/
 │   ├── css/
 │   │   └── style.css      # Estilização customizada e overlay de texto
