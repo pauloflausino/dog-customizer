@@ -1,0 +1,29 @@
+.preview-card {
+    padding: 20px;
+    background: #fff;
+    border-radius: 15px;
+}
+
+#imageContainer {
+    max-height: 500px;
+}
+
+/* O segredo para o texto sobre a imagem */
+.text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    pointer-events: none; /* Não atrapalha cliques na imagem */
+    font-size: 3rem;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.8); /* Garante leitura em qualquer fundo */
+    word-wrap: break-word;
+    transition: all 0.3s ease;
+}
+
+#dogImage {
+    min-width: 300px;
+    min-height: 300px;
+    object-fit: cover;
+}
