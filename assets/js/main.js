@@ -35,21 +35,42 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Salvar no LocalStorage
-    dogForm.onsubmit = (e) => {
+    dogForm.onsubmit = async (e) => {
         e.preventDefault();
+
+        // 1. Captura o container que tem a imagem + texto
+        const container = document.getElementById('imageContainer');
+        
+        // 2. Transforma o HTML em um Canvas e depois em Base64
+        const canvas = await html2canvas(container, { useCORS: true });
+        const imageData = canvas.toDataURL('image/png');
+
+        // 3. Prepara os dados para o LocalStorage (como antes)
         const config = {
             breed: breedSelect.value,
             name: document.getElementById('dogName').value,
-            color: document.getElementById('fontColor').value,
-            font: document.getElementById('fontFamily').value,
-            img: dogImage.src,
             date: new Date().toLocaleString()
         };
         localStorage.setItem('dogApp_data', JSON.stringify(config));
 
-        const alert = document.getElementById('alertMsg');
-        alert.classList.remove('d-none');
-        setTimeout(() => alert.classList.add('d-none'), 2000);
+        // 4. ENVIA PARA O BACKEND (PHP) salvar na pasta local
+        const formData = new FormData();
+        formData.append('image', imageData);
+        formData.append('name', config.name);
+
+        fetch('api/save_image.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success) {
+                const alert = document.getElementById('alertMsg');
+                alert.textContent = "Salvo no LocalStorage e na pasta /uploads!";
+                alert.classList.remove('d-none');
+                setTimeout(() => alert.classList.add('d-none'), 3000);
+            }
+        });
     };
 
     function loadSavedData() {
@@ -64,3 +85,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+
